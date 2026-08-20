@@ -1,0 +1,107 @@
+name: Pruebas automáticas (Classroom)
+on:
+  push:
+  workflow_dispatch:
+  repository_dispatch:
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Vincular CSS y JS al HTML
+        id: test-link-css-js
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Vinculación de css/styles.css y js/script.js en index.html'
+          command: 'bash scripts/classroom-check.sh link-css-js'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 10
+
+      - name: Realizar petición a la API con fetch (Tarea 1)
+        id: test-fetch-api
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Uso de fetch() o async/await para consultar la API de felinos'
+          command: 'bash scripts/classroom-check.sh fetch-api'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 15
+
+      - name: Renderizar tarjetas de felinos en el DOM (Tarea 2)
+        id: test-render-felinos
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Renderizado dinámico de imagen, título y descripción en .contenedor'
+          command: 'bash scripts/classroom-check.sh render-felinos'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 15
+
+      - name: Alternar tema claro / oscuro con botón (Tarea 3)
+        id: test-toggle-theme
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Evento click en #btn-theme y uso de classList.toggle(dark)'
+          command: 'bash scripts/classroom-check.sh toggle-theme'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 15
+
+      - name: Atajo de teclado para alternar tema (Tarea 4)
+        id: test-keyboard-theme
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Evento keydown (teclas T o D) para alternar tema oscuro'
+          command: 'bash scripts/classroom-check.sh keyboard-theme'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 15
+
+      - name: Efecto de resalte en tarjetas con mouseenter/mouseleave (Tarea 5)
+        id: test-card-hover
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Eventos mouseenter/mouseleave para agregar/quitar clase destacada'
+          command: 'bash scripts/classroom-check.sh card-hover'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 15
+
+      - name: Zoom / Expansión de imagen al hacer clic (Tarea 6)
+        id: test-img-zoom
+        uses: classroom-resources/autograding-io-grader@v1
+        with:
+          test-name: 'Evento click en imagen para alternar clase expandida'
+          command: 'bash scripts/classroom-check.sh img-zoom'
+          expected-output: 'CORRECTO'
+          comparison-method: exact
+          timeout: 10
+          max-score: 15
+
+      - name: Informe de resultados para Classroom
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          TEST-LINK-CSS-JS_RESULTS: '${{ steps.test-link-css-js.outputs.result }}'
+          TEST-FETCH-API_RESULTS: '${{ steps.test-fetch-api.outputs.result }}'
+          TEST-RENDER-FELINOS_RESULTS: '${{ steps.test-render-felinos.outputs.result }}'
+          TEST-TOGGLE-THEME_RESULTS: '${{ steps.test-toggle-theme.outputs.result }}'
+          TEST-KEYBOARD-THEME_RESULTS: '${{ steps.test-keyboard-theme.outputs.result }}'
+          TEST-CARD-HOVER_RESULTS: '${{ steps.test-card-hover.outputs.result }}'
+          TEST-IMG-ZOOM_RESULTS: '${{ steps.test-img-zoom.outputs.result }}'
+        with:
+          runners: test-link-css-js,test-fetch-api,test-render-felinos,test-toggle-theme,test-keyboard-theme,test-card-hover,test-img-zoom

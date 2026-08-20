@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: rgb(219, 219, 219);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+  padding: 0.5em 1em;
+  background-color: white;
+  border-bottom: 1px solid lightgrey;
+  color: grey;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#btn-theme {
+  display: block;
+  margin: 1.5em auto 0;
+  padding: 0.7em 1.5em;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#btn-theme:hover {
+  background-color: #e6e6e6;
+  border-color: #999;
+}
+
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  margin: 2em 10%;
+  gap: 1.5em;
+}
+
+.item {
+  width: 30em;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 1.5em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Tarea 5: Clase para destacar tarjeta con mouseenter/mouseleave */
+.item.destacada {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  border-color: #e67e22;
+}
+
+.item img {
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Tarea 6: Clase para zoom/expansión de imagen al hacer clic */
+.item img.expandida {
+  transform: scale(1.06);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.item h2 {
+  font-size: 1.1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.3em;
+}
+
+.item p {
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+/* estilos para tema oscuro ---------------------------------------------------------------------------------------------- */
+/* Los siguientes estilos son los que usaremos para aplicar el modo oscuro.
+   Ustedes deberán descomentar y configurar los selectores para que dependan de la clase .dark en el body */
+
+/* 
+body.dark {
+  background-color: rgb(39, 39, 39);
+}
+
+body.dark h1 { 
+  background-color: rgb(19, 19, 19);
+  color: rgb(170, 170, 170);
+  border-color: black;
+}
+
+body.dark #btn-theme {
+  background-color: rgb(39, 39, 39);
+  color: rgb(230, 230, 230);
+  border-color: rgb(80, 80, 80);
+}
+
+body.dark #btn-theme:hover {
+  background-color: rgb(55, 55, 55);
+}
+
+body.dark .item {
+  background-color: rgb(19, 19, 19);
+  border-color: black;
+}
+
+body.dark .item.destacada {
+  border-color: #f39c12;
+  box-shadow: 0 8px 24px rgba(243, 156, 18, 0.25);
+}
+
+body.dark .item h2,
+body.dark .item p {
+  color: rgb(230, 230, 230);
+}
+*/

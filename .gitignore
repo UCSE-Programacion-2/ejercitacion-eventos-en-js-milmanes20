@@ -1,0 +1,21 @@
+# Material de clase exportado
+contenidos.html
+
+# Dependencias
+node_modules/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Build
+dist/
+build/

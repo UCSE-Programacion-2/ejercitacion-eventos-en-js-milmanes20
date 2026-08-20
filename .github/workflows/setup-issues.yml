@@ -1,0 +1,257 @@
+# Crea issues de la actividad para repos creados desde GitHub Classroom.
+# Idempotente: crea solamente los issues faltantes por titulo.
+name: Setup assignment issues
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+  repository_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: setup-issues-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  ensure-assignment-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear issues faltantes de la actividad
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 << 'PY'
+          import json
+          import os
+          import textwrap
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          REPO = os.environ["GITHUB_REPOSITORY"]
+          TOKEN = os.environ["GITHUB_TOKEN"]
+          API = "https://api.github.com"
+          ISSUE_LABEL = "classroom-assignment"
+
+          ISSUES = [
+              {
+                  "title": "[Entrega] Vincular CSS y JS al HTML",
+                  "body": """
+          ## Objetivo
+          Conectar la hoja de estilos y el script de JavaScript (como módulo) al archivo `index.html`.
+
+          ## Qué debe cumplirse
+          - [ ] Dentro de `<head>`, existe una etiqueta `<link rel="stylesheet" href="./css/styles.css">`.
+          - [ ] Dentro de `<head>` o antes del cierre de `</body>`, existe `<script type="module" src="./js/script.js"></script>`.
+
+          ## Commit sugerido
+          ```
+          feat(html): vincular css y script js al html
+
+          Closes #1
+          ```""",
+              },
+              {
+                  "title": "[Requisito] Tarea 1: Realizar la petición a la API con fetch",
+                  "body": """
+          ## Objetivo
+          Realizar una petición HTTP asíncrona a la API local de felinos (`http://localhost:3000/api/felinos`) usando `fetch()` o `async/await`.
+
+          ## Qué debe cumplirse
+          - [ ] En `js/script.js`, realizar la petición a `http://localhost:3000/api/felinos`.
+          - [ ] Convertir la respuesta a formato JSON (`response.json()`).
+          - [ ] Pasar los datos recibidos a la función `renderizarFelinos(felinos)`.
+
+          ## Commit sugerido
+          ```
+          feat(js): consumir api de felinos con fetch
+
+          Closes #2
+          ```""",
+              },
+              {
+                  "title": "[Requisito] Tarea 2: Renderizar las tarjetas de felinos en el DOM",
+                  "body": """
+          ## Objetivo
+          Completar la función `renderizarFelinos(felinos)` para generar e insertar dinámicamente las tarjetas de cada felino dentro de `<div class="contenedor">`.
+
+          ## Qué debe cumplirse
+          - [ ] Seleccionar el contenedor `<div class="contenedor">`.
+          - [ ] Por cada felino, generar la estructura `<div class="item">` con `<img>`, `<h2>` y `<p>`.
+          - [ ] Mostrar la imagen, el nombre/título y la descripción correspondientes a cada felino.
+
+          ## Commit sugerido
+          ```
+          feat(js): renderizar tarjetas de felinos dinamicamente en el dom
+
+          Closes #3
+          ```""",
+              },
+              {
+                  "title": "[Requisito] Tarea 3: Alternar tema claro / oscuro con botón",
+                  "body": """
+          ## Objetivo
+          Habilitar los estilos de tema oscuro en `css/styles.css` y programar el evento de clic en el botón `#btn-theme` para alternar la clase `.dark` en el `<body>` usando `classList.toggle()`.
+
+          ## Qué debe cumplirse
+          - [ ] En `css/styles.css`, descomentar y configurar los selectores para el tema oscuro dependientes de la clase `.dark` (ej. `body.dark`, `body.dark h1`, `body.dark #btn-theme`, `body.dark .item`, `body.dark .item h2, body.dark .item p`).
+          - [ ] En `js/script.js`, seleccionar el botón `#btn-theme` y agregar un escuchador para el evento `click` con `addEventListener`.
+          - [ ] Al hacer clic, alternar la clase `.dark` en `document.body` mediante `classList.toggle('dark')`.
+
+          ## Commit sugerido
+          ```
+          feat(js): implementar evento click y classlist para alternar tema
+
+          Closes #4
+          ```""",
+              },
+              {
+                  "title": "[Requisito] Tarea 4: Atajo de teclado para alternar el tema",
+                  "body": """
+          ## Objetivo
+          Permitir alternar entre el tema claro y oscuro presionando una tecla específica del teclado (tecla `T` o `D`).
+
+          ## Qué debe cumplirse
+          - [ ] En `js/script.js`, escuchar el evento `keydown` en `window` o `document`.
+          - [ ] Evaluar si la tecla presionada es `'t'`, `'T'`, `'d'` o `'D'`.
+          - [ ] Alternar la clase `.dark` en `document.body` mediante `classList.toggle('dark')`.
+
+          ## Commit sugerido
+          ```
+          feat(js): implementar atajo de teclado para alternar tema
+
+          Closes #5
+          ```""",
+              },
+              {
+                  "title": "[Requisito] Tarea 5: Efecto de resalte en tarjetas con mouseenter y mouseleave",
+                  "body": """
+          ## Objetivo
+          Agregar un efecto interactivo de resalte visual cuando el usuario pasa el puntero sobre una tarjeta de felino.
+
+          ## Qué debe cumplirse
+          - [ ] En `css/styles.css`, contar con la clase `.destacada` para aplicar sombra/elevación visual.
+          - [ ] En `js/script.js`, asociar el evento `mouseenter` (o `mouseover`) a cada tarjeta para agregar la clase `.destacada` con `classList.add('destacada')`.
+          - [ ] Asociar el evento `mouseleave` (o `mouseout`) a cada tarjeta para quitar la clase `.destacada` con `classList.remove('destacada')`.
+
+          ## Commit sugerido
+          ```
+          feat(js): implementar efecto de resalte con mouseenter y mouseleave
+
+          Closes #6
+          ```""",
+              },
+              {
+                  "title": "[Requisito] Tarea 6: Zoom / Expansión de imagen al hacer clic",
+                  "body": """
+          ## Objetivo
+          Permitir ampliar o hacer zoom sobre la imagen de un felino al hacer clic en ella.
+
+          ## Qué debe cumplirse
+          - [ ] En `css/styles.css`, contar con la clase `.expandida` para escalar suavemente la imagen.
+          - [ ] En `js/script.js`, asociar el evento `click` a la etiqueta `<img>` de cada tarjeta de felino.
+          - [ ] Al hacer clic, alternar la clase `.expandida` en la imagen mediante `classList.toggle('expandida')`.
+
+          ## Commit sugerido
+          ```
+          feat(js): implementar zoom en imagen al hacer click
+
+          Closes #7
+          ```""",
+              },
+          ]
+
+          for _spec in ISSUES:
+              _spec["body"] = textwrap.dedent(_spec["body"]).strip()
+
+          def request(method, url, data=None):
+              headers = {
+                  "Authorization": f"Bearer {TOKEN}",
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              }
+              body = None
+              if data is not None:
+                  headers["Content-Type"] = "application/json; charset=utf-8"
+                  body = json.dumps(data).encode("utf-8")
+              req = urllib.request.Request(url, data=body, method=method, headers=headers)
+              with urllib.request.urlopen(req) as resp:
+                  return json.loads(resp.read().decode())
+
+          def list_existing_issue_titles():
+              titles = set()
+              page = 1
+              while True:
+                  url = f"{API}/repos/{REPO}/issues?state=all&per_page=100&page={page}"
+                  headers = {
+                      "Authorization": f"Bearer {TOKEN}",
+                      "Accept": "application/vnd.github+json",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                  }
+                  req = urllib.request.Request(url, headers=headers)
+                  with urllib.request.urlopen(req) as resp:
+                      batch = json.loads(resp.read().decode())
+                  if not batch:
+                      break
+                  for item in batch:
+                      if item.get("pull_request") is None:
+                          title = item.get("title", "").strip()
+                          if title:
+                              titles.add(title)
+                  if len(batch) < 100:
+                      break
+                  page += 1
+              return titles
+
+          def ensure_label_exists(label_name):
+              url = f"{API}/repos/{REPO}/labels/{urllib.parse.quote(label_name)}"
+              try:
+                  request("GET", url)
+                  return
+              except urllib.error.HTTPError as e:
+                  if e.code != 404:
+                      raise
+              request(
+                  "POST",
+                  f"{API}/repos/{REPO}/labels",
+                  {
+                      "name": label_name,
+                      "color": "1d76db",
+                      "description": "Issue generado automaticamente para la actividad de Classroom",
+                  },
+              )
+              print(f"Etiqueta creada: {label_name}")
+
+          existing_titles = list_existing_issue_titles()
+          ensure_label_exists(ISSUE_LABEL)
+
+          created_count = 0
+          skipped_count = 0
+          for spec in ISSUES:
+              if spec["title"] in existing_titles:
+                  skipped_count += 1
+                  print("Ya existe, se omite: " + spec["title"])
+                  continue
+              url = f"{API}/repos/{REPO}/issues"
+              created = request(
+                  "POST",
+                  url,
+                  {"title": spec["title"], "body": spec["body"], "labels": [ISSUE_LABEL]},
+              )
+              created_count += 1
+              print("Creado issue #" + str(created["number"]) + ": " + spec["title"])
+          print(
+              "Listo: "
+              + str(created_count)
+              + " issue(s) creado(s), "
+              + str(skipped_count)
+              + " ya existentes."
+          )
+          PY
