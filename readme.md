@@ -5,6 +5,7 @@
 En esta ejercitación vas a poner en práctica el **manejo integral de eventos en JavaScript** (eventos de ratón y teclado), la manipulación dinámica de clases mediante la API **`classList`**, y el **consumo asíncrono de APIs con `fetch()`** para renderizar contenido interactivo en el DOM.
 
 Trabajarás sobre el proyecto **"La familia de los felinos"**. Partirás de una estructura base donde el contenedor de felinos está vacío y deberás desarrollar **seis tareas principales**:
+
 1. **Tarea 1**: Obtener los datos de los felinos desde un servidor local Express (`/api/felinos`) mediante `fetch()` o `async/await`.
 2. **Tarea 2**: Renderizar dinámicamente las tarjetas de felinos en el DOM dentro de `.contenedor`.
 3. **Tarea 3**: Habilitar los estilos de tema oscuro en `css/styles.css` y programar el evento `click` en el botón `#btn-theme` para alternar la clase `.dark` con `classList.toggle()`.
@@ -18,15 +19,15 @@ Trabajarás sobre el proyecto **"La familia de los felinos"**. Partirás de una 
 
 En tu repositorio de corrección tendrás **issues de GitHub** generados automáticamente. Cada bloque de esta guía termina con el **mensaje de commit exacto** que debes usar para cerrar el issue correspondiente al subir a la rama `main`.
 
-| Issue (típico) | Qué debe quedar hecho |
-| -------------- | --------------------- |
-| **#1**         | Vincular `css/styles.css` con `<link>` y `js/script.js` (como módulo) en `index.html`. |
-| **#2**         | **Tarea 1**: Realizar la petición a la API local de felinos (`/api/felinos`) usando `fetch()` o `async/await`. |
-| **#3**         | **Tarea 2**: Renderizar dinámicamente las tarjetas de los felinos (`<div class="item">`, `<img>`, `<h2>`, `<p>`) dentro de `.contenedor`. |
+| Issue (típico) | Qué debe quedar hecho                                                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **#1**         | Vincular `css/styles.css` con `<link>` y `js/script.js` (como módulo) en `index.html`.                                                                 |
+| **#2**         | **Tarea 1**: Realizar la petición a la API local de felinos (`/api/felinos`) usando `fetch()` o `async/await`.                                         |
+| **#3**         | **Tarea 2**: Renderizar dinámicamente las tarjetas de los felinos (`<div class="item">`, `<img>`, `<h2>`, `<p>`) dentro de `.contenedor`.              |
 | **#4**         | **Tarea 3**: Configurar los estilos de tema oscuro en `css/styles.css` e implementar el evento `click` en `#btn-theme` con `classList.toggle('dark')`. |
-| **#5**         | **Tarea 4**: Implementar el atajo de teclado con evento `keydown` (tecla `T` o `D`) para alternar el tema oscuro. |
-| **#6**         | **Tarea 5**: Implementar el efecto de resalte en tarjetas con eventos `mouseenter` y `mouseleave` usando la clase `.destacada`. |
-| **#7**         | **Tarea 6**: Implementar zoom / expansión de imagen al hacer clic sobre ella con la clase `.expandida`. |
+| **#5**         | **Tarea 4**: Implementar el atajo de teclado con evento `keydown` (tecla `T` o `D`) para alternar el tema oscuro.                                      |
+| **#6**         | **Tarea 5**: Implementar el efecto de resalte en tarjetas con eventos `mouseenter` y `mouseleave` usando la clase `.destacada`.                        |
+| **#7**         | **Tarea 6**: Implementar zoom / expansión de imagen al hacer clic sobre ella con la clase `.expandida`.                                                |
 
 ---
 
@@ -57,6 +58,7 @@ Debes realizar una petición HTTP asíncrona al endpoint del servidor Express lo
 `http://localhost:3000/api/felinos`
 
 **Tu tarea:**
+
 - En `js/script.js`, completa la función `obtenerFelinos()` realizando la llamada con `fetch(API_URL)` (o utilizando `async/await`).
 - Convierte la respuesta a formato JSON con `response.json()`.
 - Pasa los datos recibidos a la función `renderizarFelinos(felinos)` e imprime los datos en la consola (`console.log(felinos)`) para inspeccionar su estructura (un arreglo de objetos con `id`, `titulo`, `descripcion`, `imagen`).
@@ -76,12 +78,13 @@ Closes #2
 Una vez obtenidos los datos de los felinos, debes recorrer el arreglo y renderizarlos dentro de `<div class="contenedor">`.
 
 **Tu tarea:**
+
 - En `js/script.js`, completa la función `renderizarFelinos(felinos)`.
 - Selecciona el contenedor con `document.querySelector('.contenedor')`.
 - Por cada objeto felino del arreglo, genera la estructura HTML requerida:
   ```html
   <div class="item">
-    <img src="[imagen]">
+    <img src="[imagen]" />
     <h2>[titulo]</h2>
     <p>[descripcion]</p>
   </div>
@@ -103,6 +106,7 @@ Closes #3
 En esta tarea integrarás los estilos CSS para el modo oscuro con el botón interactivo.
 
 **Tu tarea:**
+
 1. **En `css/styles.css`**: Descomenta el bloque de estilos del tema oscuro al final del archivo y asegúrate de que los selectores dependan de la clase `.dark` aplicada en el `body` (por ejemplo: `body.dark`, `body.dark h1`, `body.dark #btn-theme`, `body.dark .item`, `body.dark .item h2, body.dark .item p`).
 2. **En `js/script.js`**: Completa la función `inicializarBotonTema()`:
    - Selecciona el botón `#btn-theme` con `document.querySelector('#btn-theme')`.
@@ -124,6 +128,7 @@ Closes #4
 Permite que el usuario alterne entre tema claro y oscuro mediante una tecla de acceso rápido sin necesidad de hacer clic en el botón.
 
 **Tu tarea:**
+
 - En `js/script.js`, completa la función `inicializarAtajoTeclado()`.
 - Escucha el evento `keydown` globalmente en `window` o `document`.
 - Comprueba si la tecla presionada (`event.key`) es la letra **`t`** o **`d`** (en mayúscula o minúscula).
@@ -144,6 +149,7 @@ Closes #5
 Agrega una respuesta visual cuando el puntero del ratón entra y sale de cada tarjeta de felino.
 
 **Tu tarea:**
+
 - En `js/script.js`, completa la función `agregarEfectoResalte(tarjeta)` (o asocia los eventos durante el renderizado):
   - Escucha el evento `mouseenter` (o `mouseover`) en la tarjeta `.item` y agrega la clase `'destacada'` usando `tarjeta.classList.add('destacada')`.
   - Escucha el evento `mouseleave` (o `mouseout`) en la tarjeta `.item` y remueve la clase `'destacada'` usando `tarjeta.classList.remove('destacada')`.
@@ -164,6 +170,7 @@ Closes #6
 Permite que el usuario amplíe la imagen de un felino al hacer clic directamente sobre ella.
 
 **Tu tarea:**
+
 - En `js/script.js`, completa la función `agregarEfectoZoom(imagen)` (o asocia el evento durante el renderizado):
   - Escucha el evento `click` sobre la etiqueta `<img>` de la tarjeta.
   - Al hacer clic, alterna la clase `'expandida'` en la imagen usando `imagen.classList.toggle('expandida')`.
@@ -181,18 +188,18 @@ Closes #7
 
 ## 📚 Conceptos y métodos que vas a necesitar
 
-| Método / Propiedad | Descripción |
-| ------------------- | ----------- |
-| `fetch(url)` | Realiza una petición asíncrona HTTP a una API o endpoint y retorna una Promesa. |
-| `response.json()` | Parsea el cuerpo de la respuesta HTTP a un objeto o arreglo de JavaScript. |
-| `document.querySelector(sel)` | Retorna el primer elemento del DOM que coincide con el selector CSS. |
-| `elemento.addEventListener(evento, fn)` | Registra un escuchador para eventos (`click`, `keydown`, `mouseenter`, `mouseleave`, etc.). |
-| `event.key` | Propiedad del evento de teclado que contiene el valor del caracter presionado (`'t'`, `'d'`, `'Enter'`, etc.). |
-| `elemento.classList.toggle('clase')` | Alterna la presencia de una clase CSS (si existe la quita, si no existe la agrega). |
-| `elemento.classList.add('clase')` | Agrega una clase CSS al elemento. |
-| `elemento.classList.remove('clase')` | Elimina una clase CSS del elemento. |
-| `elemento.classList.contains('clase')` | Devuelve `true` o `false` según el elemento posea o no la clase. |
-| `elemento.innerHTML` | Obtiene o define el contenido HTML interno de un elemento. |
+| Método / Propiedad                      | Descripción                                                                                                    |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `fetch(url)`                            | Realiza una petición asíncrona HTTP a una API o endpoint y retorna una Promesa.                                |
+| `response.json()`                       | Parsea el cuerpo de la respuesta HTTP a un objeto o arreglo de JavaScript.                                     |
+| `document.querySelector(sel)`           | Retorna el primer elemento del DOM que coincide con el selector CSS.                                           |
+| `elemento.addEventListener(evento, fn)` | Registra un escuchador para eventos (`click`, `keydown`, `mouseenter`, `mouseleave`, etc.).                    |
+| `event.key`                             | Propiedad del evento de teclado que contiene el valor del caracter presionado (`'t'`, `'d'`, `'Enter'`, etc.). |
+| `elemento.classList.toggle('clase')`    | Alterna la presencia de una clase CSS (si existe la quita, si no existe la agrega).                            |
+| `elemento.classList.add('clase')`       | Agrega una clase CSS al elemento.                                                                              |
+| `elemento.classList.remove('clase')`    | Elimina una clase CSS del elemento.                                                                            |
+| `elemento.classList.contains('clase')`  | Devuelve `true` o `false` según el elemento posea o no la clase.                                               |
+| `elemento.innerHTML`                    | Obtiene o define el contenido HTML interno de un elemento.                                                     |
 
 ---
 

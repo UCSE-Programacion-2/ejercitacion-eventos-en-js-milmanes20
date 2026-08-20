@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const felinosData = require('./data/felinos.json');
 
 const app = express();
