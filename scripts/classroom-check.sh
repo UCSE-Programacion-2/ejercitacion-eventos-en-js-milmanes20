@@ -176,6 +176,16 @@ case "${1:-}" in
       || fail "No se encontró la clase .expandida definida en css/styles.css."
     ok
     ;;
+  all)
+    bash scripts/classroom-check.sh link-css-js || exit 1
+    bash scripts/classroom-check.sh fetch-api || exit 1
+    bash scripts/classroom-check.sh render-felinos || exit 1
+    bash scripts/classroom-check.sh toggle-theme || exit 1
+    bash scripts/classroom-check.sh keyboard-theme || exit 1
+    bash scripts/classroom-check.sh card-hover || exit 1
+    bash scripts/classroom-check.sh img-zoom || exit 1
+    ok
+    ;;
   *)
     echo "Prueba automática no reconocida. Avisale al docente." >&2
     exit 2
