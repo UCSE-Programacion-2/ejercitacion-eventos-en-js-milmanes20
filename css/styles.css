@@ -70,7 +70,7 @@ h1 {
 
 /* Tarea 5: Clase para destacar tarjeta con mouseenter/mouseleave */
 .item.destacada {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   border-color: #e67e22;
 }

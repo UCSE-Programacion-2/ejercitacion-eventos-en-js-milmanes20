@@ -133,6 +133,12 @@ function inicializarAtajoTeclado() {
 
 function agregarEfectoResalte(tarjeta) {
   // TODO: Agregar eventos mouseenter y mouseleave a la tarjeta
+  tarjeta.addEventListener('mouseenter', () => {
+    tarjeta.classList.add('destacada');
+  });
+  tarjeta.addEventListener('mouseleave', () => {
+    tarjeta.classList.remove('destacada');
+  });
 }
 
 // -----------------------------------------------------------------------------
