@@ -123,6 +123,6 @@ jobs:
             --argjson results "$AUTOGRADE_RESULTS" \
             '{payload: {classroomSlug:$slug, repo:$repo, sha:$sha, run_id:$run_id, actor:$actor, token:$token, results:$results}}')
           curl -sS -X POST "https://platform.internal.trigger.dev:44330/api/v1/tasks/ingest_autograde_result/trigger" \
-            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbTJ2ZnB2MHVuNTlib2oxdm4wODQ2YXp5IiwicHViIjp0cnVlLCJvdHUiOmZhbHNlLCJzY29wZXMiOlsidHJpZ2dlcjp0YXNrczppbmdlc3RfYXV0b2dyYWRlX3Jlc3VsdCJdLCJpc3MiOiJodHRwczovL2lkLnRyaWdnZXIuZGV2IiwiYXVkIjoiaHR0cHM6Ly9hcGkudHJpZ2dlci5kZXYiLCJpYXQiOjE3ODc2MTYwNjIsImV4cCI6MTgxOTE3MzY2Mn0.j1asqFWLGpe34_zczCPGdfDrEKl7Ljx2qgWa0SVW_U8" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbTJ2ZnB2MHVuNTlib2oxdm4wODQ2YXp5IiwicHViIjp0cnVlLCJvdHUiOmZhbHNlLCJzY29wZXMiOlsidHJpZ2dlcjp0YXNrczppbmdlc3RfYXV0b2dyYWRlX3Jlc3VsdCJdLCJpc3MiOiJodHRwczovL2lkLnRyaWdnZXIuZGV2IiwiYXVkIjoiaHR0cHM6Ly9hcGkudHJpZ2dlci5kZXYiLCJpYXQiOjE3ODc2MTY0MDUsImV4cCI6MTgxOTE3NDAwNX0.M3nVYTFcuJ8AgxJMO3BYtPY35tt_k-Kcsm5SJ0z9eHk" \
             -H "Content-Type: application/json" \
             -d "$payload" || true
