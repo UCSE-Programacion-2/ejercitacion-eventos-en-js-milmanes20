@@ -16,6 +16,16 @@ async function obtenerFelinos() {
   // 1. fetch(API_URL)
   // 2. response.json()
   // 3. renderizarFelinos(datos)
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) {
+      throw new Error(`Error en la petición: ${response.status}`);
+    }
+    const datos = await response.json();
+    renderizarFelinos(datos);
+  } catch (error) {
+    console.error('Error al obtener los felinos:', error);
+  }
 }
 
 // -----------------------------------------------------------------------------
