@@ -117,6 +117,11 @@ function inicializarBotonTema() {
 function inicializarAtajoTeclado() {
   // TODO: Agrega addEventListener('keydown', (e) => ...) en window o document
   // Comprueba si e.key es 't', 'T', 'd' o 'D' y alterna la clase 'dark'
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 't' || e.key === 'T' || e.key === 'd' || e.key === 'D') {
+      document.body.classList.toggle('dark');
+    }
+  });
 }
 
 // -----------------------------------------------------------------------------
