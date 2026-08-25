@@ -101,6 +101,10 @@ function renderizarFelinos(felinos) {
 function inicializarBotonTema() {
   // TODO: Selecciona #btn-theme y agrega addEventListener para 'click'
   // alternando document.body.classList.toggle('dark')
+  const botonTema = document.getElementById('btn-theme');
+  botonTema.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+  });
 }
 
 // -----------------------------------------------------------------------------

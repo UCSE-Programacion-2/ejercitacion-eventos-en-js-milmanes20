@@ -105,12 +105,11 @@ h1 {
 /* Los siguientes estilos son los que usaremos para aplicar el modo oscuro.
    Ustedes deberán descomentar y configurar los selectores para que dependan de la clase .dark en el body */
 
-/* 
 body.dark {
   background-color: rgb(39, 39, 39);
 }
 
-body.dark h1 { 
+body.dark h1 {
   background-color: rgb(19, 19, 19);
   color: rgb(170, 170, 170);
   border-color: black;
@@ -140,4 +139,3 @@ body.dark .item h2,
 body.dark .item p {
   color: rgb(230, 230, 230);
 }
-*/
