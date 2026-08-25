@@ -149,6 +149,10 @@ function agregarEfectoResalte(tarjeta) {
 
 function agregarEfectoZoom(imagen) {
   // TODO: Agregar evento click a la imagen alternando la clase 'expandida'
+
+  imagen.addEventListener('click', () => {
+    imagen.classList.toggle('expandida');
+  });
 }
 
 // Inicialización de la aplicación al cargar
