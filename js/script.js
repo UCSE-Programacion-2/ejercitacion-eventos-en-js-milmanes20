@@ -44,6 +44,52 @@ function renderizarFelinos(felinos) {
   // TODO: Selecciona el contenedor con document.querySelector('.contenedor')
   // y renderiza cada felino con su imagen, título y descripción.
   // Recuerda vincular los eventos de resalte (Tarea 5) y zoom de imagen (Tarea 6).
+  /*const contenedor = document.querySelector('.contenedor');
+  felinos.forEach((felino) => {
+    const tarjeta = document.createElement('div');
+    tarjeta.classList.add('item');
+
+    const imagen = document.createElement('img');
+    imagen.src = felino.imagen;
+    imagen.alt = felino.titulo;
+
+    const titulo = document.createElement('h2');
+    titulo.textContent = felino.titulo;
+
+    const descripcion = document.createElement('p');
+    descripcion.textContent = felino.descripcion;
+
+    tarjeta.appendChild(imagen);
+    tarjeta.appendChild(titulo);
+    tarjeta.appendChild(descripcion);
+
+    // Vincular eventos de resalte y zoom
+    agregarEfectoResalte(tarjeta);
+    agregarEfectoZoom(imagen);
+
+    contenedor.appendChild(tarjeta);
+  });*/
+  const contenedor = document.querySelector('.contenedor');
+  contenedor.innerHTML = '';
+
+  felinos.forEach((felino) => {
+    const tarjeta = document.createElement('div');
+    tarjeta.classList.add('item');
+
+    tarjeta.innerHTML = `
+      <img src="${felino.imagen}" alt="${felino.titulo}">
+      <h2>${felino.titulo}</h2>
+      <p>${felino.descripcion}</p>
+    `;
+
+    // Vincular eventos visuales
+    agregarEfectoResalte(tarjeta);
+
+    const imagen = tarjeta.querySelector('img');
+    agregarEfectoZoom(imagen);
+
+    contenedor.appendChild(tarjeta);
+  });
 }
 
 // -----------------------------------------------------------------------------
