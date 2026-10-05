@@ -101,6 +101,7 @@ jobs:
 
       - name: Report results to Classmoji
         if: always()
+        continue-on-error: true
         env:
           AUTOGRADE_RESULTS: |
             {
@@ -119,10 +120,13 @@ jobs:
             --arg run_id "${{ github.run_id }}" \
             --arg actor "${{ github.actor }}" \
             --arg slug "ucse-programacion-2-classroom" \
-            --arg token "8ebdad86616a5c16cd22b19ab0e97e72133a86af82c7b2fc3f42456698e0aa42" \
+            --arg token "d79efb0f2c720008b1ffe2ffe532b76cb9dd4955fb76c3f99d7459a7bb3dbaa0" \
             --argjson results "$AUTOGRADE_RESULTS" \
             '{payload: {classroomSlug:$slug, repo:$repo, sha:$sha, run_id:$run_id, actor:$actor, token:$token, results:$results}}')
-          curl -sS -X POST "https://platform.internal.trigger.dev:44330/api/v1/tasks/ingest_autograde_result/trigger" \
-            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbTJ2ZnB2MHVuNTlib2oxdm4wODQ2YXp5IiwicHViIjp0cnVlLCJvdHUiOmZhbHNlLCJzY29wZXMiOlsidHJpZ2dlcjp0YXNrczppbmdlc3RfYXV0b2dyYWRlX3Jlc3VsdCJdLCJpc3MiOiJodHRwczovL2lkLnRyaWdnZXIuZGV2IiwiYXVkIjoiaHR0cHM6Ly9hcGkudHJpZ2dlci5kZXYiLCJpYXQiOjE3ODc2MTY0MDUsImV4cCI6MTgxOTE3NDAwNX0.M3nVYTFcuJ8AgxJMO3BYtPY35tt_k-Kcsm5SJ0z9eHk" \
+          if ! curl -sS --fail-with-body -X POST "https://api.trigger.dev/api/v1/tasks/ingest_autograde_result/trigger" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbTJ2ZnB2MHVuNTlib2oxdm4wODQ2YXp5IiwicHViIjp0cnVlLCJvdHUiOmZhbHNlLCJzY29wZXMiOlsidHJpZ2dlcjp0YXNrczppbmdlc3RfYXV0b2dyYWRlX3Jlc3VsdCJdLCJpc3MiOiJodHRwczovL2lkLnRyaWdnZXIuZGV2IiwiYXVkIjoiaHR0cHM6Ly9hcGkudHJpZ2dlci5kZXYiLCJleHAiOjE4MjI3MTc2ODIsImlhdCI6MTc5MTE2MDA4Mn0.XoAPw6QcCL3NvvL5PvJObH1TqxyBDLbQ1eHDVOX9u9g" \
             -H "Content-Type: application/json" \
-            -d "$payload" || true
+            -d "$payload"; then
+            echo "::error::Could not report autograding results to Classmoji at https://api.trigger.dev/api/v1/tasks/ingest_autograde_result/trigger"
+            exit 1
+          fi
